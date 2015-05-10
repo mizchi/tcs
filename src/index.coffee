@@ -1,4 +1,3 @@
-{js_beautify} = require('js-beautify')
 PEG = require 'pegjs'
 coffee = require 'pegjs-coffee-plugin'
 fs = require 'fs'
@@ -35,7 +34,7 @@ exports.parse = parse = (source, options = {}) ->
 # AST => string
 exports._compile = _compile = (ast, options = {}) ->
   compile = require './compiler'
-  js_beautify(compile(ast, options))
+  compile(ast, options)
 
 # string => string
 exports.compile = (source, options = {}) ->

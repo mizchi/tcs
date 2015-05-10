@@ -72,7 +72,9 @@ _compile = (node) ->
     else
       throw 'unknow node: ' + node.type
 
+recast = require 'recast'
 # ProgramNode => string
 module.exports = (node, options = {}) ->
   exportTarget = options.export ? 'module.exports'
-  node
+  # node
+  recast.print(node).code

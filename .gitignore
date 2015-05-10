@@ -31,3 +31,4 @@ lib
 runtime.js
 parser.js
 grammar.pegcoffee
+scratch.coffee

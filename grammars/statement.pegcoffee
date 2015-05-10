@@ -7,6 +7,11 @@ topLevelStatement
 statement
   = forStatement
   / ifStatement
+  / exprStatement
+
+exprStatement = e: expr {
+  {type: 'ExpressionStatement', expression: e}
+}
 
 ifStatement = 'if' __ condition:expr _ EOL children:block consequent:_elseIf* _else:_else?
   {  __rp
