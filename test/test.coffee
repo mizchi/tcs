@@ -38,7 +38,8 @@ if target = process.argv[3] ? process.argv[2]
   catch e
     formatter = require('../src/format-error.coffee')
     console.log 'parser failed on', target
-    throw new Error (formatter source, e)
+    throw e
+    # throw new Error (formatter source, e)
 
   console.error inspect ast, depth: null # show ast
   code = tcs._compile(ast)

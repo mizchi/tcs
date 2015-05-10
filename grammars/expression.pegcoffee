@@ -86,21 +86,22 @@ nullableTypeAnnotation = "?" e:(!nullableTypeAnnotation e:typeExpr {e}) {
   typeAnnotation: e
 }
 
+objectKey = identifier / literal
+property
+  = key:objectKey _ ':' _ expr:expr
+    {
+      type: 'Property'
+      key: key
+      value: expr
+      kind: 'init'
+      method: false
+      shorthand: false
+      computed: false
+    }
+
 objectExpr =
-  "{" _ properties:(head:_property rest:(_ ',' _ p:_property {p})* {[head].concat(rest)})? _ "}"
+  "{" _ EOL? _ properties:(head:property rest:(_ (',' / EOL) _ EOL? _ p:property {p})* {[head].concat(rest)})? _ EOL? _ "}"
   {
     type: 'ObjectExpression'
     properties: properties ? []
   }
-  _property
-    = key:_objectKey _ ':' _ expr:expr
-      {
-        type: 'Property'
-        key: key
-        value: expr
-        kind: 'init'
-        method: false
-        shorthand: false
-        computed: false
-      }
-  _objectKey = identifier / literal
