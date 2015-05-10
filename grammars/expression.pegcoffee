@@ -23,7 +23,20 @@ multiplicative =
   / primary
   _multicativeOperator = $("*" !"=" / "/" !"=" )
 
-primary = assignmentExpr / memberExpr / identifier / literal / "(" _ e:expr _ ")" {e}
+primary = callExpr / assignmentExpr / memberExpr / identifier / literal / "(" _ e:expr _ ")" {e}
+
+callExpr = callee:memberExpr "(" _ args:_callArguments? _ ")"
+  {
+    console.log 'agrs/',args
+    type: "CallExpression"
+    callee: callee
+    arguments: args ? []
+  }
+
+  _callArguments = first:expr rest:(_ ',' _ e:expr {e})* {
+    return [first].concat(rest)
+  }
+
 memberExpr = first:_memberLeftHandSideExpr accesses:_memberAccess*
   {
     accesses.reduce (node, access) ->

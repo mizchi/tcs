@@ -6,14 +6,15 @@ tcs = require('../src/index')
 # Try to parse
 list = [
   'expr'
-  # 'assignment'
+  'assignment'
   # 'for'
   # 'if'
   # 'identifier'
   # 'indent'
 ]
 
-for i in list
+# for i in list
+for i in []
   source = fs.readFileSync(path.join __dirname, "fixtures/#{i}.tcs").toString()
   try
     ast = tcs.parse(source)
