@@ -2,12 +2,25 @@
 // Expressions
 //////////////
 
-expr = primitive / identifier
-literal = number {}
+expr = identifier / literal
 
-identifier = !reserved name:symbol {__rp type: 'Identifier', name:name, typeAnnotation: undefined, optional: undefined}
+identifier = !reserved name:symbol ann:typeAnnotation? {
+  type: 'Identifier', name:name, typeAnnotation: ann, optional: undefined
+}
 
-//thisIdentifier = !reserved '@' s:dottableSymbol {__rp type:'thisIdentifier', value: s}*/
+typeAnnotation = ":" _ ann:typeExpr {
+  type: 'TypeAnnotation'
+  typeAnnotation: ann
+}
+
+typeExpr = nullableTypeAnnotation / numberTypeAnnotation
+numberTypeAnnotation = "number" {type: "NumberTypeAnnotation"}
+
+nullableTypeAnnotation = "?" e:(!nullableTypeAnnotation e:typeExpr {e}) {
+  type: "NullableTypeAnnotation"
+  typeAnnotation: e
+}
+
 //memberAccessableIdentifier = !reserved symbol:dottableSymbol {__rp type: 'identifier', value: symbol}*/
 
 // binary expression

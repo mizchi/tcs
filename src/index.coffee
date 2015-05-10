@@ -8,7 +8,7 @@ grammarFiles = [
   '../grammars/_entry.pegcoffee'
   '../grammars/statement.pegcoffee'
   '../grammars/expression.pegcoffee'
-  '../grammars/primitive.pegcoffee'
+  '../grammars/literal.pegcoffee'
 ]
 
 getGrammarSource = ->
