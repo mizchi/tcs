@@ -23,11 +23,11 @@ for i in list
     catch e
       console.error i + ' invalid output'
       console.error e
-      process.exit(1)
+      # process.exit(1)
 
   catch e
     console.error e
-    throw i + ' parse failed'
+    # throw i + ' parse failed'
 
 # exec
 execTemp = (code) ->

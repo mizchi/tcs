@@ -23,7 +23,24 @@ multiplicative =
   / primary
   _multicativeOperator = $("*" !"=" / "/" !"=" )
 
-primary = identifier / literal / "(" _ e:expr _ ")" {e}
+primary = memberExpr / identifier / literal / "(" _ e:expr _ ")" {e}
+memberExpr = first:_memberLeftHandSideExpr accesses:_memberAccess*
+  {
+    accesses.reduce (node, access) ->
+      type: 'MemberExpression'
+      computed: false
+      object: node
+      property: access
+    , first
+  }
+
+  _memberLeftHandSideExpr = identifier // callExpr
+  _memberAccess
+    = '.' id:identifier {
+      id
+    }
+  // dynamic member access
+
 identifier = !reserved name:symbol ann:typeAnnotation? {
   type: 'Identifier', name:name, typeAnnotation: ann, optional: undefined
 }
