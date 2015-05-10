@@ -13,8 +13,15 @@ typeAnnotation = ":" _ ann:typeExpr {
   typeAnnotation: ann
 }
 
-typeExpr = nullableTypeAnnotation / numberTypeAnnotation
+typeExpr = nullableTypeAnnotation / numberTypeAnnotation / stringTypeAnnotation / booleanTypeAnnotation / genericTypeAnnotation
 numberTypeAnnotation = "number" {type: "NumberTypeAnnotation"}
+stringTypeAnnotation = "string" {type: "StringTypeAnnotation"}
+booleanTypeAnnotation = "bool" {type: "BooleanTypeAnnotation"}
+genericTypeAnnotation = id:identifier {
+  type: "GenericTypeAnnotation"
+  id: id
+  typeParameters: null # TODO
+}
 
 nullableTypeAnnotation = "?" e:(!nullableTypeAnnotation e:typeExpr {e}) {
   type: "NullableTypeAnnotation"

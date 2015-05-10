@@ -1,2 +1,5 @@
-// let a = 3
+const a = 3
 let b:?number = 3
+let c:string = "hello"
+let d:bool = false
+let e:Foo = 1
