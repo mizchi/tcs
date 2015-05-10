@@ -1,6 +1,2 @@
 for i in items
-  - console.log(i)
-  span=i
-
-for i, n in @items
-  li
+  console.log(i)

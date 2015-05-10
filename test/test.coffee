@@ -10,9 +10,7 @@ list = [
   'assignment'
   'class'
   # 'for'
-  # 'if'
-  # 'identifier'
-  # 'indent'
+  'if'
 ]
 
 for i in list
