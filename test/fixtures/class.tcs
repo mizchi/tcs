@@ -1,3 +1,6 @@
 class X
+  static x()
+    a
+
   foo()
     a

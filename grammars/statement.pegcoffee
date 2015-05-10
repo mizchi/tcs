@@ -44,10 +44,11 @@ funcDeclaration = id:identifier "(" _ params:funcParamList? _ ")" _ returnType:t
     expression: true
   }
 
-methodDefinition = id:identifier "(" _ params:funcParamList? _ ")" _ returnType:typeAnnotation? _ EOL body:block
+methodDefinition = _static:"static "? id:identifier "(" _ params:funcParamList? _ ")" _ returnType:typeAnnotation? _ EOL body:block
   {
     type: 'MethodDefinition'
     key: id
+    static: _static?
     value:
       type: 'FunctionExpression'
       id: null
