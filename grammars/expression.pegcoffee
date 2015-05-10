@@ -70,26 +70,6 @@ assignmentExpr = left:_assignable _ op:_assignmentOp _ right:expr
   _assignmentOp = $("=" / "+=" / "-=" / '*=' / '/=')
   _assignable = memberExpr
 
-typeAnnotation = ":" _ ann:typeExpr {
-  type: 'TypeAnnotation'
-  typeAnnotation: ann
-}
-
-typeExpr = nullableTypeAnnotation / numberTypeAnnotation / stringTypeAnnotation / booleanTypeAnnotation / genericTypeAnnotation
-numberTypeAnnotation = "number" {type: "NumberTypeAnnotation"}
-stringTypeAnnotation = "string" {type: "StringTypeAnnotation"}
-booleanTypeAnnotation = "bool" {type: "BooleanTypeAnnotation"}
-genericTypeAnnotation = id:identifier {
-  type: "GenericTypeAnnotation"
-  id: id
-  typeParameters: null # TODO
-}
-
-nullableTypeAnnotation = "?" e:(!nullableTypeAnnotation e:typeExpr {e}) {
-  type: "NullableTypeAnnotation"
-  typeAnnotation: e
-}
-
 objectKey = identifier / literal
 property
   = key:objectKey _ ':' _ expr:expr
