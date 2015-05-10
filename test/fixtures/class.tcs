@@ -7,3 +7,5 @@ class X
     x
   set y(y:number)
     y
+
+class Y extends X

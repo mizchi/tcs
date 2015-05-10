@@ -76,11 +76,15 @@ classBody = INDENT lines:lineInClass+ DEDENT {
   type: 'ClassBody'
   body: lines
 }
-classDeclaration = "class" __ id:identifier body:(_ EOL b:classBody {b})?
+
+classDeclaration =
+  "class" __ id:identifier
+  superClass:( __ "extends" __ e:expr {e})?
+  body:(_ EOL b:classBody {b})?
   {
     type: 'ClassDeclaration'
     id: id
-    superClass: null
+    superClass: superClass
     body:body ? {type: 'ClassBody', body: []}
     typeParameters: undefined
     implements: undefined
