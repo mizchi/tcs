@@ -23,7 +23,7 @@ multiplicative =
   / primary
   _multicativeOperator = $("*" !"=" / "/" !"=" )
 
-primary = memberExpr / identifier / literal / "(" _ e:expr _ ")" {e}
+primary = assignmentExpr / memberExpr / identifier / literal / "(" _ e:expr _ ")" {e}
 memberExpr = first:_memberLeftHandSideExpr accesses:_memberAccess*
   {
     accesses.reduce (node, access) ->
@@ -40,10 +40,19 @@ memberExpr = first:_memberLeftHandSideExpr accesses:_memberAccess*
       id
     }
   // dynamic member access
-
 identifier = !reserved name:symbol ann:typeAnnotation? {
   type: 'Identifier', name:name, typeAnnotation: ann, optional: undefined
 }
+
+assignmentExpr = left:_assignable _ op:_assignmentOp _ right:expr
+  {
+    type: 'AssignmentExpression'
+    left: left
+    operator: op
+    right: right
+  }
+  _assignmentOp = $("=" / "+=" / "-=" / '*=' / '/=')
+  _assignable = memberExpr
 
 typeAnnotation = ":" _ ann:typeExpr {
   type: 'TypeAnnotation'
