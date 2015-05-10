@@ -6,7 +6,9 @@ topLevelStatement
 
 statement
   = variableDeclaration
+  / funcDeclaration
   / exprStatement
+  / returnStatement
 
 exprStatement = e: expr {
   {type: 'ExpressionStatement', expression: e}
@@ -22,6 +24,28 @@ variableDeclaration = kind:declarationKind __ ident:identifierWithTypeAnnotation
     init: e
   }]
   kind: kind
+}
+
+funcParamList = h:funcParam rest:(_ "," _ p:funcParam {p})* {[h].concat(rest)}
+funcParam = identifierWithTypeAnnotation
+funcDeclaration = ident:identifier "(" _ params:funcParamList? _ ")" _ returnType:typeAnnotation? _ EOL body:block
+  {
+    type: 'FunctionDeclaration'
+    id: ident
+    params: params ? []
+    defaults: []
+    returnType: returnType
+    body:
+      type: 'BlockStatement'
+      body: wrapBody(body)
+    rest: null
+    generator: false
+    expression: true
+  }
+
+returnStatement = 'return' expr:(__ e:expr {e})? {
+  type: 'ReturnStatement'
+  argument: expr
 }
 
 ifStatement = 'if' __ condition:expr _ EOL children:block consequent:_elseIf* _else:_else?

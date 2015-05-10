@@ -23,7 +23,15 @@ multiplicative =
   / primary
   _multicativeOperator = $("*" !"=" / "/" !"=" )
 
-primary = objectExpr / callExpr / assignmentExpr / memberExpr / identifier / literal / "(" _ e:expr _ ")" {e}
+primary
+  = arrowFuncExpr
+  / objectExpr
+  / callExpr
+  / assignmentExpr
+  / memberExpr
+  / identifier
+  / literal
+  / "(" _ e:expr _ ")" {e}
 
 callExpr = callee:memberExpr "(" _ args:_callArguments? _ ")"
   {
@@ -89,3 +97,33 @@ objectExpr =
     type: 'ObjectExpression'
     properties: properties ? []
   }
+
+
+arrowFuncParamList = h:arrowFuncParam rest:(_ "," _ p:arrowFuncParam {p})* {[h].concat(rest)}
+arrowFuncParam = identifier
+
+arrowFuncExpr
+  = "(" _ params:arrowFuncParamList? _ ")" _ "=>" _ expr:expr
+    {
+      type: "ArrowFunctionExpression"
+      id: null
+      params: params ? []
+      defaults: []
+      body: expr
+      rest: null
+      generator: false
+      expression: true
+    }
+  / "(" _ params:arrowFuncParamList? _ ")" _ "=>" _ EOL body:block
+    {
+      type: "ArrowFunctionExpression"
+      id: null
+      params: params ? []
+      defaults: []
+      body:
+        type: 'BlockStatement'
+        body: wrapBody(body)
+      rest: null
+      generator: false
+      expression: false
+    }

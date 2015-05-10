@@ -1,0 +1,18 @@
+() => 1
+let f1 = () => 1
+let f2 = () =>
+  return 1
+
+let f3 = () =>
+  1
+
+(a) => a
+(a, b) => b
+(a) =>
+  a
+
+func(a, b)
+  a
+
+func(a: number, b: number): number
+  a + b

@@ -4,20 +4,15 @@
   ctx.indentStack = []
   ctx.indent = ""
 
-  global.buildTree = (first, rest, builder) ->
-    result = first
-    for i in rest
-      result = builder result, i
-    result
-
-  global.buildBinaryExpression = (first, rest) ->
-    buildTree first, rest, (result, element) ->
-      {
-        type:     "BinaryExpression",
-        operator: element[1]
-        left:     result
-        right:    element[3]
-      }
+  # implicit return
+  global.wrapBody = (lines) ->
+    return unless lines?.length?
+    lastLine = lines[lines.length - 1]
+    if lastLine?.type is 'ExpressionStatement'
+      lines[lines.length - 1] =
+        type: 'ReturnStatement'
+        argument: lastLine.expression
+    lines
 
   r = (node) ->
     node.raw = text().replace /[\uEFEF\uEFFE\uEFFF]/g, ''
@@ -56,7 +51,7 @@ topLevelLine
 line
   = SAMEDENT node:(!EOL s:statement {s}) comment? EOL* {node}
 
-block = children: ( INDENT c:line* DEDENT { c }) {children}
+block = (INDENT c:line* DEDENT { c })
 
 EOL = "\r\n" / "\n" / "\r"
 
