@@ -5,6 +5,7 @@ tcs = require('../src/index')
 
 # Try to parse
 list = [
+  'expr'
   # 'assignment'
   # 'for'
   # 'if'

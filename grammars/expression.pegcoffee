@@ -3,10 +3,12 @@
 //////////////
 
 expr = primitive / identifier
-identifier = thisIdentifier / memberAccessableIdentifier / singleIdentifier
-singleIdentifier = !reserved symbol:symbol {__rp type: 'identifier', value: symbol}
-thisIdentifier = !reserved '@' s:dottableSymbol {__rp type:'thisIdentifier', value: s}
-memberAccessableIdentifier = !reserved symbol:dottableSymbol {__rp type: 'identifier', value: symbol}
+literal = number {}
+
+identifier = !reserved name:symbol {__rp type: 'Identifier', name:name, typeAnnotation: undefined, optional: undefined}
+
+//thisIdentifier = !reserved '@' s:dottableSymbol {__rp type:'thisIdentifier', value: s}*/
+//memberAccessableIdentifier = !reserved symbol:dottableSymbol {__rp type: 'identifier', value: symbol}*/
 
 // binary expression
 

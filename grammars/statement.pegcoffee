@@ -5,12 +5,23 @@ topLevelStatement
   = statement
 
 statement
-  = forStatement
-  / ifStatement
+  = variableDeclaration
   / exprStatement
 
 exprStatement = e: expr {
   {type: 'ExpressionStatement', expression: e}
+}
+
+
+declarationKind = $("let" / "var" / "const")
+variableDeclaration = kind:declarationKind " "+ ident:identifier " "* "=" " "* e:expr {
+  type: 'VariableDeclaration'
+  declarations: [{
+    type: 'VariableDeclarator'
+    id: ident
+    init: e
+  }]
+  kind: kind
 }
 
 ifStatement = 'if' __ condition:expr _ EOL children:block consequent:_elseIf* _else:_else?
@@ -28,7 +39,7 @@ ifStatement = 'if' __ condition:expr _ EOL children:block consequent:_elseIf* _e
     { __rp type: 'aliternate', body:children}
 
 forStatement =
-  'for' __ left:singleIdentifier second:(_ ',' _ i:singleIdentifier {i})?
+  'for' __ left:identifier second:(_ ',' _ i:identifier {i})?
   __ forType:('in'/'of')
   __ right:expr EOL children:block
   { __rp
