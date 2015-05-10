@@ -1,4 +1,4 @@
-// primitive.pegcoffee ===================
+// primitive ===================
 
 primitive = boolean / number / string
 

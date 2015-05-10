@@ -1,4 +1,4 @@
-reiny = require('../lib/index')
+tcs = require('../lib/index')
 {inspect} = require('util')
 path = require('path')
 fs =require('fs')
@@ -6,10 +6,10 @@ fs =require('fs')
 argv = require('minimist')(process.argv.slice(2))
 
 printBeautifiedCode = (source, options = {}) ->
-  code = reiny.compile source, options
+  code = tcs.compile source, options
 
 printAst = (source, options = {}) ->
-  code = reiny.parse source, options
+  code = tcs.parse source, options
   inspect code, depth: null
 
 [target] = argv._
@@ -21,11 +21,11 @@ run = (target, argv) ->
   code =
     if argv.scss
       styleCompiler = require '../lib/style-compiler'
-      ast = reiny.parse source
+      ast = tcs.parse source
       styleCompiler ast
     else
       # compile
-      reiny.compile source, argv
+      tcs.compile source, argv
 
   # TODO: auto generate filename by extname
   if argv.out or argv.o

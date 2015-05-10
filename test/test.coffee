@@ -1,35 +1,23 @@
 fs = require 'fs'
 path = require 'path'
-reiny = require('../src/index')
+tcs = require('../src/index')
 {inspect} = require('util')
 
 # Try to parse
 list = [
-  'classname'
-  'code'
-  'comment'
-  'custom-element'
-  'direct-element'
-  'embeded-code'
-  'example'
-  'for'
-  'header'
-  'identifier'
-  'prop-types'
-  # 'inline-expr'
-  'indent'
-  'modifiers'
-  'style'
-  'mergeable-object'
-  'text'
+  # 'assignment'
+  # 'for'
+  # 'if'
+  # 'identifier'
+  # 'indent'
 ]
 
 for i in list
-  source = fs.readFileSync(path.join __dirname, "fixtures/#{i}.reiny").toString()
+  source = fs.readFileSync(path.join __dirname, "fixtures/#{i}.tcs").toString()
   try
-    ast = reiny.parse(source)
+    ast = tcs.parse(source)
     try
-      compiled = reiny._compile ast
+      compiled = tcs._compile ast
       Function compiled
     catch e
       console.error i + ' invalid output'
@@ -45,7 +33,7 @@ execTemp = (code) ->
   global.React = require('react')
   eval(code
     .replace("module.exports", "global.__tmp")
-    .replace("require('reiny/runtime')", "require('../src/runtime')")
+    .replace("require('tcs/runtime')", "require('../src/runtime')")
   )
   c = React.createClass
     propTypes: __tmp.propTypes ? {}
@@ -58,12 +46,12 @@ if target = process.argv[3] ? process.argv[2]
   source = fs.readFileSync(path.join process.cwd(), target).toString()
   ast = null
   try
-    ast = reiny.parse(source)
+    ast = tcs.parse(source)
   catch e
     formatter = require('../src/format-error.coffee')
     throw new Error (formatter source, e)
 
   console.error inspect ast, depth: null # show ast
-  code = reiny._compile(ast)
+  code = tcs._compile(ast)
   console.log code # show code
   # execTemp(code)

@@ -7,10 +7,10 @@ fs = require 'fs'
 
 # Run
 grammarFiles = [
-  '../src/grammars/_entry.pegcoffee'
-  '../src/grammars/statement.pegcoffee'
-  '../src/grammars/expression.pegcoffee'
-  '../src/grammars/primitive.pegcoffee'
+  '../grammars/_entry.pegcoffee'
+  '../grammars/statement.pegcoffee'
+  '../grammars/expression.pegcoffee'
+  '../grammars/primitive.pegcoffee'
 ]
 
 getGrammarSource = ->

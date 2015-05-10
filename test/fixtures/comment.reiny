@@ -1,9 +1,0 @@
-// a
-div //b
-/* */
-  span //b
-/*
-   */
-  span /* */ aaa
-    // c
-  // d

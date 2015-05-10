@@ -1,6 +1,0 @@
-foo(
-  a = {1}
-  onClick = {- function(){console.log('foo')} -}
-)
-
-span = { a }

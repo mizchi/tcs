@@ -1,10 +1,10 @@
 {
-  "name": "reiny",
-  "version": "0.5.3",
+  "name": "tcs",
+  "version": "0.0.1",
   "description": "Template engine for React",
-  "main": "lib/runtime",
+  "main": "lib/compiler",
   "bin": {
-    "reiny": "reiny"
+    "tcs": "tcs"
   },
   "scripts": {
     "prepublish": "./script/build",
@@ -40,18 +40,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mizchi/reiny.git"
+    "url": "https://github.com/mizchi/tcs.git"
   },
   "keywords": [
     "react",
     "template",
     "jade",
-    "reiny",
+    "tcs",
     "mithril",
     "mercury"
   ],
   "bugs": {
-    "url": "https://github.com/mizchi/reiny/issues"
+    "url": "https://github.com/mizchi/tcs/issues"
   },
-  "homepage": "https://github.com/mizchi/reiny"
+  "homepage": "https://github.com/mizchi/tcs"
 }

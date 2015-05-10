@@ -1,4 +1,0 @@
-i.fa.fa-check
-| &nbsp;
-span = { __('Synced') }
-= { __('Synced') }

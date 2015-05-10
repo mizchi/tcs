@@ -1,7 +1,0 @@
-a='foo'
-a = @foo
-a aaa
-
-h1() foo bar baz
-
-Foo
