@@ -6,6 +6,7 @@ topLevelStatement
 
 statement
   = variableDeclaration
+  / classDeclaration
   / funcDeclaration
   / exprStatement
   / returnStatement
@@ -28,10 +29,10 @@ variableDeclaration = kind:declarationKind __ ident:identifierWithTypeAnnotation
 
 funcParamList = h:funcParam rest:(_ "," _ p:funcParam {p})* {[h].concat(rest)}
 funcParam = identifierWithTypeAnnotation
-funcDeclaration = ident:identifier "(" _ params:funcParamList? _ ")" _ returnType:typeAnnotation? _ EOL body:block
+funcDeclaration = id:identifier "(" _ params:funcParamList? _ ")" _ returnType:typeAnnotation? _ EOL body:block
   {
     type: 'FunctionDeclaration'
-    id: ident
+    id: id
     params: params ? []
     defaults: []
     returnType: returnType
@@ -41,6 +42,42 @@ funcDeclaration = ident:identifier "(" _ params:funcParamList? _ ")" _ returnTyp
     rest: null
     generator: false
     expression: true
+  }
+
+methodDefinition = id:identifier "(" _ params:funcParamList? _ ")" _ returnType:typeAnnotation? _ EOL body:block
+  {
+    type: 'MethodDefinition'
+    key: id
+    value:
+      type: 'FunctionExpression'
+      id: null
+      params: params ? []
+      defaults: []
+      returnType: returnType
+      body:
+        type: 'BlockStatement'
+        body: wrapBody(body)
+      rest: null
+      generator: false
+      expression: true
+  }
+
+inclassStatement = methodDefinition
+lineInClass
+  = SAMEDENT node:(!EOL s:inclassStatement {s}) comment? EOL* {node}
+
+classBody = INDENT lines:lineInClass+ DEDENT {
+  type: 'ClassBody'
+  body: lines
+}
+classDeclaration = "class" __ id:identifier body:(_ EOL b:classBody {b})?
+  {
+    type: 'ClassDeclaration'
+    id: id
+    superClass: null
+    body:body ? {type: 'ClassBody', body: []}
+    typeParameters: undefined
+    implements: undefined
   }
 
 returnStatement = 'return' expr:(__ e:expr {e})? {
