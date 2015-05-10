@@ -50,27 +50,6 @@ forStatement =
       body: children
   }
 
-object = "{" __blank props:(p:property __blank {p})* "}"
-  {
-    __rp
-      type: 'props'
-      children: props
-  }
-  property
-    = key:hyphenizableSymbol _ ':' _ expr: expr
-      {
-        __rp
-          type: 'property'
-          key: key
-          expr: expr
-      }
-    / '>' _ key:dottableSymbol
-      {
-        __rp
-          type: 'mergeable-object'
-          key: key
-      }
-
 typeDeclaration = symbol:symbol _ ':' _ expr:_propTypeExpr
   {__rp type: 'typeDeclaration', propertyName:symbol, typeExpr: expr}
   _propTypeExpr = typeName:$(symbol) + isArray:'[]'? optional:'?'?

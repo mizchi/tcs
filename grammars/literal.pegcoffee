@@ -10,8 +10,8 @@ string = value:_string
   }
 
 // boolean
-
 _boolean = "true" / "false"
+
 
 // number
 _number

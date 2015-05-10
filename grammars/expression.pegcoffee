@@ -23,11 +23,10 @@ multiplicative =
   / primary
   _multicativeOperator = $("*" !"=" / "/" !"=" )
 
-primary = callExpr / assignmentExpr / memberExpr / identifier / literal / "(" _ e:expr _ ")" {e}
+primary = objectExpr / callExpr / assignmentExpr / memberExpr / identifier / literal / "(" _ e:expr _ ")" {e}
 
 callExpr = callee:memberExpr "(" _ args:_callArguments? _ ")"
   {
-    console.log 'agrs/',args
     type: "CallExpression"
     callee: callee
     arguments: args ? []
@@ -86,3 +85,22 @@ nullableTypeAnnotation = "?" e:(!nullableTypeAnnotation e:typeExpr {e}) {
   type: "NullableTypeAnnotation"
   typeAnnotation: e
 }
+
+objectExpr =
+  "{" _ properties:(head:_property rest:(_ ',' _ p:_property {p})* {[head].concat(rest)})? _ "}"
+  {
+    type: 'ObjectExpression'
+    properties: properties ? []
+  }
+  _property
+    = key:_objectKey _ ':' _ expr:expr
+      {
+        type: 'Property'
+        key: key
+        value: expr
+        kind: 'init'
+        method: false
+        shorthand: false
+        computed: false
+      }
+  _objectKey = identifier / literal
