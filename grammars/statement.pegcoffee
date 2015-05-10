@@ -8,13 +8,13 @@ statement
   = variableDeclaration
   / classDeclaration
   / funcDeclaration
+  / ifStatement
   / exprStatement
   / returnStatement
 
 exprStatement = e: expr {
   {type: 'ExpressionStatement', expression: e}
 }
-
 
 declarationKind = $("let" / "var" / "const")
 variableDeclaration = kind:declarationKind __ ident:identifierWithTypeAnnotation _ "=" _ e:expr {
@@ -95,19 +95,38 @@ returnStatement = 'return' expr:(__ e:expr {e})? {
   argument: expr
 }
 
-ifStatement = 'if' __ condition:expr _ EOL children:block consequent:_elseIf* _else:_else?
-  {  __rp
-      type: 'if'
-      condition: condition
-      consequents: consequent
-      alternate: _else
-      body: children
+ifStatement = 'if' __ test:expr _ EOL body:block elseIfs:_elseIf* _else:_else?
+  {
+    alternate =
+      elseIfs.reverse().reduce (prev, next) ->
+        type: 'IfStatement'
+        test: next.test
+        consequent:
+          type: 'BlockStatement'
+          body: next.body
+        alternate: prev
+      , (
+        if _else?
+          type: 'BlockStatement'
+          body: _else
+        else
+          null
+      )
+    type: 'IfStatement'
+    test: test
+    consequent:
+      type: 'BlockStatement'
+      body: body
+    alternate: alternate
   }
-
-  _elseIf = SAMEDENT 'else' __ 'if' __ condition:expr _ EOL children:block
-    { __rp type: 'consequent', condition:condition, body:children}
-  _else = SAMEDENT 'else' _ EOL children:block
-    { __rp type: 'aliternate', body:children}
+  _elseIf = SAMEDENT 'else' __ 'if' __ test:expr _ EOL body:block
+    {
+      test: test
+      body: body
+    }
+  _else = SAMEDENT 'else' _ EOL body:block {
+    body
+  }
 
 forStatement =
   'for' __ left:identifier second:(_ ',' _ i:identifier {i})?

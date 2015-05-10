@@ -8,6 +8,7 @@ list = [
   'expr'
   'func'
   'assignment'
+  'class'
   # 'for'
   # 'if'
   # 'identifier'
@@ -29,7 +30,6 @@ for i in list
 
 if target = process.argv[3] ? process.argv[2]
   console.error 'exec', target
-
   source = fs.readFileSync(path.join process.cwd(), target).toString()
   ast = null
   try

@@ -2,6 +2,20 @@ if true
   a
 else if false
   b
-    c
-else
+else if false
   c
+else
+  d
+
+if true
+  t
+
+if true
+  p
+else
+  q
+
+if true
+  p
+else if false
+  q
