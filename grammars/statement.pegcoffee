@@ -44,10 +44,15 @@ funcDeclaration = id:identifier "(" _ params:funcParamList? _ ")" _ returnType:t
     expression: true
   }
 
-methodDefinition = _static:"static "? id:identifier "(" _ params:funcParamList? _ ")" _ returnType:typeAnnotation? _ EOL body:block
+
+methodKind = $("get" / "set")
+methodDefinition =
+  _static:"static "? kind:(m:methodKind __ {m})?
+  id:identifier "(" _ params:funcParamList? _ ")" _ returnType:typeAnnotation? _ EOL body:block
   {
     type: 'MethodDefinition'
     key: id
+    kind: kind ? ""
     static: _static?
     value:
       type: 'FunctionExpression'

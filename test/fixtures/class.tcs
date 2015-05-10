@@ -1,6 +1,9 @@
 class X
   static x()
     a
-
   foo()
     a
+  get x()
+    x
+  set y(y:number)
+    y
