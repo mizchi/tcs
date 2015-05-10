@@ -52,8 +52,12 @@ memberExpr = first:_memberLeftHandSideExpr accesses:_memberAccess*
       id
     }
   // dynamic member access
-identifier = !reserved name:symbol ann:typeAnnotation? {
-  type: 'Identifier', name:name, typeAnnotation: ann, optional: undefined
+identifier = !reserved name:symbol{
+  type: 'Identifier', name:name
+}
+
+identifierWithTypeAnnotation = !reserved name:symbol ann:typeAnnotation? {
+  type: 'Identifier', name:name, typeAnnotation: ann
 }
 
 assignmentExpr = left:_assignable _ op:_assignmentOp _ right:expr

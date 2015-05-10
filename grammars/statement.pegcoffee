@@ -14,7 +14,7 @@ exprStatement = e: expr {
 
 
 declarationKind = $("let" / "var" / "const")
-variableDeclaration = kind:declarationKind __ ident:identifier _ ta:typeAnnotation? _ "=" _ e:expr {
+variableDeclaration = kind:declarationKind __ ident:identifierWithTypeAnnotation _ "=" _ e:expr {
   type: 'VariableDeclaration'
   declarations: [{
     type: 'VariableDeclarator'
