@@ -60,7 +60,7 @@ block = children: ( INDENT c:line* DEDENT { c }) {children}
 
 EOL = "\r\n" / "\n" / "\r"
 
-comment = '//' value:toTheEndOfLine EOL?
+comment = '#' value:toTheEndOfLine EOL?
   {
     __rp({type: 'Comment', value})
   }
