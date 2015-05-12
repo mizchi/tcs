@@ -8,6 +8,7 @@ statement
   = variableDeclaration
   / classDeclaration
   / funcDeclaration
+  / forInStatement
   / ifStatement
   / exprStatement
   / returnStatement
@@ -128,16 +129,23 @@ ifStatement = 'if' __ test:expr _ EOL body:block elseIfs:_elseIf* _else:_else?
     body
   }
 
-forStatement =
-  'for' __ left:identifier second:(_ ',' _ i:identifier {i})?
-  __ forType:('in'/'of')
-  __ right:expr EOL children:block
-  { __rp
-      type: if forType is 'in' then 'forIn' else 'forOf'
-      left: left
-      second: second
-      right: right
-      body: children
+forInStatement =
+  'for' __ left:identifier
+  __ "in"
+  __ right:expr _ EOL body:block
+  {
+    type: 'ForInStatement'
+    left:
+      type: 'VariableDeclaration'
+      kind: 'var'
+      declarations: [{
+        type: 'VariableDeclarator'
+        id: left
+      }]
+    right: right
+    body:
+      type: 'BlockStatement'
+      body: body
   }
 
 typeDeclaration = symbol:symbol _ ':' _ expr:_propTypeExpr
