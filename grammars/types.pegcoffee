@@ -15,3 +15,46 @@ nullableTypeAnnotation = "?" e:(!nullableTypeAnnotation e:typeExpr {e}) {
   type: "NullableTypeAnnotation"
   typeAnnotation: e
 }
+
+// interface
+
+objectProperty =
+  id:identifier _ ":" _ ann:typeExpr {
+    type: 'ObjectTypeProperty'
+    key: id
+    value: ann
+  }
+
+lineInInterface
+  = SAMEDENT node:(!EOL s:objectProperty {s}) comment? EOL* {node}
+
+objectTypeAnnotation = INDENT lines:lineInInterface+ DEDENT {
+  type: 'ObjectTypeAnnotation'
+  properties: lines
+  indexers: []
+  callProperties: []
+}
+
+interfaceExtends = id:identifier {
+  type: "InterfaceExtends"
+  id: id
+  typeParameters: null
+}
+
+interfaceExtendList =
+  first:interfaceExtends rest:(_ ", " _ i:interfaceExtends {i})*
+  {
+    [first].concat(rest)
+  }
+
+interfaceDeclaration =
+  "interface" __ id:identifier
+  _extends:( __ "extends" __ e:interfaceExtendList {e})?
+  body:(_ EOL b:objectTypeAnnotation {b})?
+  {
+    type: 'InterfaceDeclaration'
+    id: id
+    body:body # ? {type: 'ObjectTypeAnnotation', properties: []}
+    typeParameters: undefined
+    extends: _extends
+  }
