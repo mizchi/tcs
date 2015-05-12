@@ -1,0 +1,11 @@
+var printFizzbuzz = (x) =>
+  if x % 3 * 5 === 0
+    return 'fizzbuzz'
+  else if x % 3 === 0
+    return 'fizz'
+  else if x % 5 === 0
+    return 'buzz'
+  i
+
+for i in [1, 3, 3, 4, 5]
+  printFizzbuzz(i)

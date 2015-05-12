@@ -29,6 +29,7 @@ primary
   / callExpr
   / assignmentExpr
   / memberExpr
+  / arrayExpr
   / identifier
   / literal
   / "(" _ e:expr _ ")" {e}
@@ -127,3 +128,9 @@ arrowFuncExpr
       generator: false
       expression: false
     }
+
+arrayExpr = '[' _ exprs:(first:expr rest:(_ "," _ e:expr {e})* {[first].concat(rest)})? _ ']'
+  {
+    type: 'ArrayExpression'
+    elements: exprs ? []
+  }
