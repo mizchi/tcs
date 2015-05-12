@@ -8,6 +8,7 @@ statement
   = variableDeclaration
   / classDeclaration
   / interfaceDeclaration
+  / declareVariable
   / funcDeclaration
   / forInStatement
   / forOfStatement

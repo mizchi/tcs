@@ -7,11 +7,13 @@ tcs = require('../src/index')
 list = [
   'assignment'
   'binary'
+  'declare-variable'
   'expr'
   'func'
   'class'
   'for'
   'if'
+  'interface'
 ]
 
 for i in list

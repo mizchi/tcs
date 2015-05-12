@@ -58,3 +58,10 @@ interfaceDeclaration =
     typeParameters: undefined
     extends: _extends
   }
+
+declareVariable =
+  "declare" __ "var" __ id:identifierWithTypeAnnotation
+  {
+    type: 'DeclareVariable'
+    id: id
+  }
