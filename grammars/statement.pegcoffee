@@ -4,13 +4,16 @@
 topLevelStatement
   = statement
 
-statement
+declaration
   = variableDeclaration
   / classDeclaration
   / interfaceDeclaration
   / declareVariable
   / funcDeclaration
   / importDeclaration
+  / exportDeclaration
+statement
+  = declaration
   / forInStatement
   / forOfStatement
   / ifStatement
@@ -199,6 +202,14 @@ importDeclaration =
     }]
     source: s
     isType: false
+  }
+
+exportDeclaration =
+  "export" _default:(__ "default")? __ decl:declaration
+  {
+    type: "ExportDeclaration"
+    default: _default?
+    declaration: decl
   }
 
 typeDeclaration = symbol:symbol _ ':' _ expr:_propTypeExpr
