@@ -10,6 +10,7 @@ statement
   / interfaceDeclaration
   / declareVariable
   / funcDeclaration
+  / importDeclaration
   / forInStatement
   / forOfStatement
   / ifStatement
@@ -26,7 +27,10 @@ exprStatement = e: expr {
 }
 
 declarationKind = $("let" / "var" / "const")
-variableDeclaration = kind:declarationKind __ ident:identifierWithTypeAnnotation _ "=" _ e:expr {
+variableDeclaration =
+  kind:declarationKind
+  __ ident:identifierWithTypeAnnotation
+  _ "=" !">" _ e:expr {
   type: 'VariableDeclaration'
   declarations: [{
     type: 'VariableDeclarator'
@@ -189,6 +193,12 @@ importDeclaration =
   "import" __ id:identifier __ "from" __ s:string
   {
     type: "ImportDeclaration"
+    specifiers: [{
+      type: "ImportDefaultSpecifier"
+      id: id
+    }]
+    source: s
+    isType: false
   }
 
 typeDeclaration = symbol:symbol _ ':' _ expr:_propTypeExpr

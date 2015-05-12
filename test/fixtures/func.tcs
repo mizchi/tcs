@@ -3,8 +3,8 @@ let f1 = () => 1
 let f2 = () =>
   return 1
 
-let f3 = () => 1
-
+let f3 = () =>
+  1
 (a) => a
 (a, b) => b
 (a) =>
