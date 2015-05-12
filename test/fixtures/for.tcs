@@ -1,4 +1,4 @@
 for i in items
-  console.log(i)
+  print(i)
 for i of items
-  console.log(i)
+  print(i)

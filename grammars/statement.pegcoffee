@@ -15,6 +15,11 @@ statement
   / ifStatement
   / exprStatement
   / returnStatement
+  // debugger
+  // continue
+  // break
+  // throw
+  // try
 
 exprStatement = e: expr {
   {type: 'ExpressionStatement', expression: e}
@@ -179,6 +184,11 @@ forOfStatement =
     body:
       type: 'BlockStatement'
       body: body
+  }
+importDeclaration =
+  "import" __ id:identifier __ "from" __ s:string
+  {
+    type: "ImportDeclaration"
   }
 
 typeDeclaration = symbol:symbol _ ':' _ expr:_propTypeExpr

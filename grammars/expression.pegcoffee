@@ -3,7 +3,67 @@
 //////////////
 
 // See https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
-expr = equality
+expr = assignmentable
+
+assignable = memberExpr
+leftHandSideExpr = callExpr / memberExpr / newExpr
+// leftHandSideExpr = identifier
+prefixable
+  = postfixable
+  / ops:(op:_prefixOp _ {op})+ e:postfixable {e}
+  _prefixOp = "++" / "--" / "+" / "-" / "!" / "~" / "typeof" / "delete"
+
+postfixable = e:leftHandSideExpr ops:_postfixOp* {e}
+  _postfixOp = "++" / "--"
+
+
+assignmentable
+  = _assignment / binaryExpr
+  _assignment = left:assignable _ op:_assignmentOp _ right:expr
+  {
+    type: 'AssignmentExpression'
+    left: left
+    operator: op
+    right: right
+  }
+  _assignmentOp = $("=" / "+=" / "-=" / '*=' / '/=')
+
+binaryExpr = equality
+
+callArgumentList = first:expr rest:(_ ',' _ e:expr {e})*
+  {
+    [first].concat(rest)
+  }
+
+newExpr = "new" __ e:memberExpr _ "(" _ args:callArgumentList? _ ")"
+  {
+    type: 'NewExpression'
+    callee: e
+    arguments: args ? []
+  }
+
+callExpr = callee:memberExpr "(" _ args:callArgumentList? _ ")"
+  {
+    type: "CallExpression"
+    callee: callee
+    arguments: args ? []
+  }
+
+memberExpr = first:primary accesses:_memberAccess*
+  {
+    accesses.reduce (node, access) ->
+      type: 'MemberExpression'
+      computed: false
+      object: node
+      property: access
+    , first
+  }
+  _memberAccess
+    = '.' id:identifier {
+      id
+    }
+  // dynamic member access
+
 equality =
   left:logically _ op:_equalityOperator _ right:equality {
     type: 'BinaryExpression'
@@ -35,53 +95,36 @@ additive =
   _additiveOperator = $("+" !"=" / "-" !"=" )
 
 multiplicative =
-  left:primary _ op:_multicativeOperator _ right:multiplicative {
+  left:prefixable _ op:_multicativeOperator _ right:multiplicative {
     type: 'BinaryExpression'
     left: left
     operator: op
     right: right
   }
-  / primary
+  / prefixable
   _multicativeOperator = $("*" !"=" / "/" !"=" / "%" !"=")
+
+thisExpr = '@' {type: 'ThisExpression'}
+
+/*
+PrimaryExpression
+  = ThisToken { return { type: "ThisExpression" }; }
+  / Identifier
+  / Literal
+  / ArrayLiteral
+  / ObjectLiteral
+  / "(" __ expression:Expression __ ")" { return expression; }
+*/
 
 primary
   = arrowFuncExpr
-  / objectExpr
-  / callExpr
-  / assignmentExpr
-  / memberExpr
-  / arrayExpr
+  / thisExpr
   / identifier
   / literal
+  / arrayExpr
+  / objectExpr
   / "(" _ e:expr _ ")" {e}
 
-callExpr = callee:memberExpr "(" _ args:_callArguments? _ ")"
-  {
-    type: "CallExpression"
-    callee: callee
-    arguments: args ? []
-  }
-
-  _callArguments = first:expr rest:(_ ',' _ e:expr {e})* {
-    return [first].concat(rest)
-  }
-
-memberExpr = first:_memberLeftHandSideExpr accesses:_memberAccess*
-  {
-    accesses.reduce (node, access) ->
-      type: 'MemberExpression'
-      computed: false
-      object: node
-      property: access
-    , first
-  }
-
-  _memberLeftHandSideExpr = identifier // callExpr
-  _memberAccess
-    = '.' id:identifier {
-      id
-    }
-  // dynamic member access
 identifier = !reserved name:symbol{
   type: 'Identifier', name:name
 }
@@ -89,16 +132,6 @@ identifier = !reserved name:symbol{
 identifierWithTypeAnnotation = !reserved name:symbol ann:typeAnnotation? {
   type: 'Identifier', name:name, typeAnnotation: ann
 }
-
-assignmentExpr = left:_assignable _ op:_assignmentOp _ right:expr
-  {
-    type: 'AssignmentExpression'
-    left: left
-    operator: op
-    right: right
-  }
-  _assignmentOp = $("=" / "+=" / "-=" / '*=' / '/=')
-  _assignable = memberExpr
 
 objectKey = identifier / literal
 property
