@@ -3,20 +3,10 @@
 //////////////
 
 // See https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
+
 expr = assignmentable
 
 assignable = memberExpr
-leftHandSideExpr = callExpr / memberExpr / newExpr
-// leftHandSideExpr = identifier
-prefixable
-  = postfixable
-  / ops:(op:_prefixOp _ {op})+ e:postfixable {e}
-  _prefixOp = "++" / "--" / "+" / "-" / "!" / "~" / "typeof" / "delete"
-
-postfixable = e:leftHandSideExpr ops:_postfixOp* {e}
-  _postfixOp = "++" / "--"
-
-
 assignmentable
   = _assignment / binaryExpr
   _assignment = left:assignable _ op:_assignmentOp _ right:expr
@@ -104,17 +94,15 @@ multiplicative =
   / prefixable
   _multicativeOperator = $("*" !"=" / "/" !"=" / "%" !"=")
 
-thisExpr = '@' {type: 'ThisExpression'}
+leftHandSideExpr = callExpr / memberExpr / newExpr
 
-/*
-PrimaryExpression
-  = ThisToken { return { type: "ThisExpression" }; }
-  / Identifier
-  / Literal
-  / ArrayLiteral
-  / ObjectLiteral
-  / "(" __ expression:Expression __ ")" { return expression; }
-*/
+prefixable
+  = postfixable
+  / ops:(op:_prefixOp _ {op})+ e:postfixable {e}
+  _prefixOp = "++" / "--" / "+" / "-" / "!" / "~" / "typeof" / "delete"
+
+postfixable = e:leftHandSideExpr ops:_postfixOp* {e}
+  _postfixOp = "++" / "--"
 
 primary
   = arrowFuncExpr
@@ -124,6 +112,10 @@ primary
   / arrayExpr
   / objectExpr
   / "(" _ e:expr _ ")" {e}
+
+// atoms
+
+thisExpr = '@' {type: 'ThisExpression'}
 
 identifier = !reserved name:symbol{
   type: 'Identifier', name:name
