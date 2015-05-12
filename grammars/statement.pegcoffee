@@ -9,6 +9,7 @@ statement
   / classDeclaration
   / funcDeclaration
   / forInStatement
+  / forOfStatement
   / ifStatement
   / exprStatement
   / returnStatement
@@ -129,15 +130,37 @@ ifStatement = 'if' __ test:expr _ EOL body:block elseIfs:_elseIf* _else:_else?
     body
   }
 
+forInitKind = $('var' / 'let')
 forInStatement =
-  'for' __ left:identifier
+  'for' kind:(__ k:forInitKind {k})?
+  __ left:identifier
   __ "in"
   __ right:expr _ EOL body:block
   {
     type: 'ForInStatement'
     left:
       type: 'VariableDeclaration'
-      kind: 'var'
+      kind: kind ? 'var'
+      declarations: [{
+        type: 'VariableDeclarator'
+        id: left
+      }]
+    right: right
+    body:
+      type: 'BlockStatement'
+      body: body
+  }
+
+forOfStatement =
+  'for' kind:(__ k:forInitKind {k})?
+  __ left:identifier
+  __ "of"
+  __ right:expr _ EOL body:block
+  {
+    type: 'ForOfStatement'
+    left:
+      type: 'VariableDeclaration'
+      kind: kind ? 'var'
       declarations: [{
         type: 'VariableDeclarator'
         id: left
