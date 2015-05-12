@@ -1,4 +1,4 @@
-var printFizzbuzz = (x) =>
+printFizzbuzz(x)
   if x % 3 * 5 === 0
     return 'fizzbuzz'
   else if x % 3 === 0

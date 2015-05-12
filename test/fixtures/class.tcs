@@ -1,4 +1,5 @@
 class X
+  n: number
   static x()
     a
   foo()

@@ -2,7 +2,28 @@
 // Expressions
 //////////////
 
-expr = additive
+// See https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
+expr = equality
+equality =
+  left:logically _ op:_equalityOperator _ right:equality {
+    type: 'BinaryExpression'
+    left: left
+    operator: op
+    right: right
+  }
+  / logically
+  _equalityOperator = $("===" / "==" / "!==" / "!=")
+
+logically =
+  left:additive _ op:_logicallyOperator _ right:logically {
+    type: 'BinaryExpression'
+    left: left
+    operator: op
+    right: right
+  }
+  / additive
+  _logicallyOperator = $(">" / ">="/ "<" / "<=")
+
 additive =
   left:multiplicative _ op:_additiveOperator _ right:additive {
     type: 'BinaryExpression'
@@ -21,7 +42,7 @@ multiplicative =
     right: right
   }
   / primary
-  _multicativeOperator = $("*" !"=" / "/" !"=" )
+  _multicativeOperator = $("*" !"=" / "/" !"=" / "%" !"=")
 
 primary
   = arrowFuncExpr

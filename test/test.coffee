@@ -5,11 +5,12 @@ tcs = require('../src/index')
 
 # Try to parse
 list = [
+  'assignment'
+  'binary'
   'expr'
   'func'
-  'assignment'
   'class'
-  # 'for'
+  'for'
   'if'
 ]
 

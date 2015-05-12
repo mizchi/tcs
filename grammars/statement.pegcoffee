@@ -70,7 +70,15 @@ methodDefinition =
       expression: true
   }
 
-inclassStatement = methodDefinition
+classProperty =
+  id:identifier _ ann:typeAnnotation {
+    type: 'ClassProperty'
+    key: id
+    typeAnnotation: ann
+  }
+
+inclassStatement = methodDefinition / classProperty
+
 lineInClass
   = SAMEDENT node:(!EOL s:inclassStatement {s}) comment? EOL* {node}
 
