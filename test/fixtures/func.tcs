@@ -15,3 +15,6 @@ func(a, b)
 
 func(a: number, b: number): number
   a + b
+
+func<T>(t: T)
+  a

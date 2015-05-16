@@ -1,3 +1,4 @@
+class A
 class X<A>
   n: number
   a: A
@@ -13,4 +14,5 @@ class X<A>
   set y(y:number)
     y
 
+# class Y extends X<T>
 class Y extends X

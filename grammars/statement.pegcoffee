@@ -45,13 +45,17 @@ variableDeclaration =
 
 funcParamList = h:funcParam rest:(_ "," _ p:funcParam {p})* {[h].concat(rest)}
 funcParam = identifierWithTypeAnnotation
-funcDeclaration = id:identifier "(" _ params:funcParamList? _ ")" _ returnType:typeAnnotation? _ EOL body:block
+funcDeclaration =
+  id:identifier parameters:typeParameterDeclaration?
+  "(" _ params:funcParamList? _ ")"
+  _ returnType:typeAnnotation? _ EOL body:block
   {
     type: 'FunctionDeclaration'
     id: id
     params: params ? []
     defaults: []
     returnType: returnType
+    typeParameters: parameters
     body:
       type: 'BlockStatement'
       body: wrapBody(body)
@@ -104,18 +108,31 @@ classBody = INDENT lines:lineInClass+ DEDENT {
 typeParameterDeclaration = "<" _ first:identifier rest:(_ "," _ i:identifier {i})* _ ">"
   {
     type: "TypeParameterDeclaration"
-
     params: [first].concat(rest)
   }
+
+typeParameterInstantiation = "<" _ first:typeExpr rest:(_ "," _ i:typeExpr {i})* _ ">"
+  {
+    type: "TypeParameterInstantiation"
+    params: [first].concat(rest)
+  }
+
 classDeclaration =
   "class" __ id:identifier
   typeParameters:(_ t:typeParameterDeclaration {t})?
-  superClass:( __ "extends" __ e:expr {e})?
+  superClass:(
+    __ "extends" __ e:expr // _ parameters:typeParameterDeclaration?
+    {
+      expr: e
+      # superTypeParameters: parameters
+    }
+  )?
   body:(_ EOL b:classBody {b})?
   {
     type: 'ClassDeclaration'
     id: id
-    superClass: superClass
+    superClass: superClass?.expr
+    superTypeParameters: superClass?.superTypeParameters
     body:body ? {type: 'ClassBody', body: []}
     typeParameters: typeParameters
     implements: undefined
