@@ -1,8 +1,8 @@
 # tcs
 
-WIP: heavily under development
+Tiny and typed CoffeeScript like language. Script for ES6 age.
 
-coffeescript like language with typecheck. script for es6 age.
+WIP: heavily under development
 
 ## Features
 
@@ -29,10 +29,13 @@ coffeescript like language with typecheck. script for es6 age.
 - regexp expression
 - member access after func call `foo().bar`
 - sourcemap
+- cli interface
+- gulp
+- browserify
 
-and many corner bugs.
+and many corner bugs of parser.
 
-Advanced
+Advanced tasks
 
 - [ ] if expression
 - [ ] switch expression
@@ -49,8 +52,7 @@ class X
   static x()
     a
 
-  foo()
-    a
+  foo() { a }
 
   get x()
     x
