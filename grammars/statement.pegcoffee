@@ -19,11 +19,29 @@ statement
   / ifStatement
   / exprStatement
   / returnStatement
-  // debugger
-  // continue
-  // break
-  // throw
-  // try
+  / debugger
+  / continue
+  / break
+  / throw
+  / try
+
+try =
+  "try" _ EOL tryBody:block
+  SAMEDENT "catch" __ id:identifier _ EOL catchBody:block
+  {
+    type: "TryStatement"
+    block:
+      type: "BlockStatement"
+      body: tryBody
+    guardedHandlers: []
+    handlers: [
+      type: 'CatchClause'
+      param: id
+      body:
+        type: "BlockStatement"
+        body: catchBody
+    ]
+  }
 
 exprStatement = e: expr {
   {type: 'ExpressionStatement', expression: e}
@@ -45,10 +63,16 @@ variableDeclaration =
 
 funcParamList = h:funcParam rest:(_ "," _ p:funcParam {p})* {[h].concat(rest)}
 funcParam = identifierWithTypeAnnotation
+funcBody
+  = EOL body:block {body}
+  / "{" _ EOL body:block _ "}" {body}
+  / "{" _ stmt:statement _ "}" {[stmt]}
+
 funcDeclaration =
   id:identifier parameters:typeParameterDeclaration?
   "(" _ params:funcParamList? _ ")"
-  _ returnType:typeAnnotation? _ EOL body:block
+  _ returnType:typeAnnotation?
+  _ body:funcBody
   {
     type: 'FunctionDeclaration'
     id: id
@@ -64,11 +88,29 @@ funcDeclaration =
     expression: true
   }
 
+debugger = "debugger" {
+  type: "DebuggerStatement"
+}
+
+continue = "continue" {
+  type: "ContinueStatement"
+}
+
+break = "break" {
+  type: "BreakStatement"
+  label: null
+}
+
+throw = "throw" _ expr:expr {
+  type: "ThrowStatement"
+  argument: expr
+}
 
 methodKind = $("get" / "set")
 methodDefinition =
   _static:"static "? kind:(m:methodKind __ {m})?
-  id:identifier "(" _ params:funcParamList? _ ")" _ returnType:typeAnnotation? _ EOL body:block
+  id:identifier parameters:typeParameterDeclaration?
+  "(" _ params:funcParamList? _ ")" _ returnType:typeAnnotation? _ body:funcBody
   {
     type: 'MethodDefinition'
     key: id
@@ -86,6 +128,7 @@ methodDefinition =
       rest: null
       generator: false
       expression: true
+      typeParameters: parameters
   }
 
 classProperty =
@@ -104,18 +147,6 @@ classBody = INDENT lines:lineInClass+ DEDENT {
   type: 'ClassBody'
   body: lines
 }
-
-typeParameterDeclaration = "<" _ first:identifier rest:(_ "," _ i:identifier {i})* _ ">"
-  {
-    type: "TypeParameterDeclaration"
-    params: [first].concat(rest)
-  }
-
-typeParameterInstantiation = "<" _ first:typeExpr rest:(_ "," _ i:typeExpr {i})* _ ">"
-  {
-    type: "TypeParameterInstantiation"
-    params: [first].concat(rest)
-  }
 
 classDeclaration =
   "class" __ id:identifier

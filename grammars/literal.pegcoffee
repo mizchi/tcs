@@ -88,7 +88,7 @@ arrowFuncExpr
       generator: false
       expression: true
     }
-  / "(" _ params:arrowFuncParamList? _ ")" _ "=>" _ EOL body:block
+  / "(" _ params:arrowFuncParamList? _ ")" _ "=>" _ body:funcBody
     {
       type: "ArrowFunctionExpression"
       id: null

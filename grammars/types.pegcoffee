@@ -65,3 +65,15 @@ declareVariable =
     type: 'DeclareVariable'
     id: id
   }
+
+typeParameterDeclaration = "<" _ first:identifier rest:(_ "," _ i:identifier {i})* _ ">"
+  {
+    type: "TypeParameterDeclaration"
+    params: [first].concat(rest)
+  }
+
+typeParameterInstantiation = "<" _ first:typeExpr rest:(_ "," _ i:typeExpr {i})* _ ">"
+  {
+    type: "TypeParameterInstantiation"
+    params: [first].concat(rest)
+  }

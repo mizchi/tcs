@@ -5,6 +5,13 @@ let f2 = () =>
 
 let f3 = () =>
   1
+
+let f4 = () => {a = 3}
+
+let f5 = () => {
+  a = 3
+}
+
 (a) => a
 (a, b) => b
 (a) =>
@@ -12,6 +19,12 @@ let f3 = () =>
 
 func(a, b)
   a
+
+func(a, b) {
+  a
+}
+
+func(a, b) { a }
 
 func(a: number, b: number): number
   a + b
