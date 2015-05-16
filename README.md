@@ -141,6 +141,13 @@ import x from './x'
 export default {}
 ```
 
+## CLI(wip)
+
+```
+tsc foo.tsc -o foo.js --target flow
+tsc foo.tsc -o foo.js --target es5
+```
+
 ## LICENSE
 
 MIT
