@@ -1,5 +1,9 @@
-class X
+class X<A>
   n: number
+  a: A
+  constructor()
+    super()
+
   static x()
     a
   foo()

@@ -4,7 +4,7 @@ class Entity
   y: number
 
 class Player extends Entity
-  # constructor()
-    # super()
+  constructor()
+    super()
 
 var x = new Player()

@@ -101,8 +101,15 @@ classBody = INDENT lines:lineInClass+ DEDENT {
   body: lines
 }
 
+typeParameterDeclaration = "<" _ first:identifier rest:(_ "," _ i:identifier {i})* _ ">"
+  {
+    type: "TypeParameterDeclaration"
+
+    params: [first].concat(rest)
+  }
 classDeclaration =
   "class" __ id:identifier
+  typeParameters:(_ t:typeParameterDeclaration {t})?
   superClass:( __ "extends" __ e:expr {e})?
   body:(_ EOL b:classBody {b})?
   {
@@ -110,7 +117,7 @@ classDeclaration =
     id: id
     superClass: superClass
     body:body ? {type: 'ClassBody', body: []}
-    typeParameters: undefined
+    typeParameters: typeParameters
     implements: undefined
   }
 

@@ -14,6 +14,7 @@ list = [
   'for'
   'if'
   'interface'
+  'module'
 ]
 
 for i in list

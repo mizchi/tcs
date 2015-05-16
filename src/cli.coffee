@@ -18,14 +18,7 @@ printAst = (source, options = {}) ->
 run = (target, argv) ->
   targetPath = path.join process.cwd(), target
   source = fs.readFileSync(targetPath).toString()
-  code =
-    if argv.scss
-      styleCompiler = require '../lib/style-compiler'
-      ast = tcs.parse source
-      styleCompiler ast
-    else
-      # compile
-      tcs.compile source, argv
+  code = tcs.compile source, argv
 
   # TODO: auto generate filename by extname
   if argv.out or argv.o

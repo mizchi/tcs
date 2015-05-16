@@ -17,9 +17,10 @@ new X(1)
 ++1
 1++
 ++1++
-# FIXME 
+# FIXME
 (f()).x
 (new X(1)).foo
 # a['b']
 # a[1]
 # /?eregexp/
+@.x
