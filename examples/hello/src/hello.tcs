@@ -1,0 +1,4 @@
+foo(n: number): string
+  n.toString()
+
+foo("bar")

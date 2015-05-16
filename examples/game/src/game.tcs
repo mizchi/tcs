@@ -1,0 +1,10 @@
+class Entity
+  id: string
+  x: number
+  y: number
+
+class Player extends Entity
+  # constructor()
+    # super()
+
+var x = new Player()
