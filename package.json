@@ -13,7 +13,7 @@
   "author": "mizchi",
   "license": "MIT",
   "dependencies": {
-    "babel-core": "^5.1.7",
+    "babel-core": "^5.4.3",
     "camelize": "^1.0.0",
     "js-beautify": "^1.5.5",
     "minimist": "^1.1.1",

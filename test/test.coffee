@@ -24,7 +24,7 @@ for i in list
   try
     ast = tcs.parse(source)
     try
-      compiled = tcs._compile ast
+      compiled = tcs._compile ast, target: 'flow'
     catch e
       console.error i + ' invalid output'
   catch e
@@ -43,5 +43,5 @@ if target = process.argv[3] ? process.argv[2]
     throw e
 
   console.error inspect ast, depth: null # show ast
-  code = tcs._compile(ast)
+  code = tcs._compile(ast, {target: 'flow'})
   console.log code # show code

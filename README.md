@@ -1,6 +1,6 @@
 # tcs
 
-Tiny and typed CoffeeScript like language. Script for ES6 age.
+Tiny and Typed CoffeeScript like language for ES2015 age.
 
 WIP: heavily under development
 

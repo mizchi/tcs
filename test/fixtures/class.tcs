@@ -6,7 +6,7 @@ class X<A>
   foo<T>()
     a
 
-  get prop() {this._x}
+  get prop() {@._x}
 
   set prop(_x:number)
     @._x = x
