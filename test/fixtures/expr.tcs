@@ -24,3 +24,5 @@ new X(1)
 # a[1]
 # /?eregexp/
 @.x
+
+a[b]

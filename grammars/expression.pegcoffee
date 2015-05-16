@@ -38,19 +38,27 @@ callExpr = callee:memberExpr "(" _ args:callArgumentList? _ ")"
     arguments: args ? []
   }
 
-memberExpr = first:primary accesses:_memberAccess*
+memberExpr
+  = first:primary accesses:_memberAccess*
   {
     accesses.reduce (node, access) ->
       type: 'MemberExpression'
-      computed: false
+      computed: access.computed
       object: node
-      property: access
+      property: access.expr
     , first
   }
   _memberAccess
-    = '.' id:identifier {
-      id
-    }
+    = '[' _ expr:expr _ "]"
+      {
+        expr: expr
+        computed: true
+      }
+    / '.' id:identifier
+      {
+        expr: id
+        computed: false
+      }
   // dynamic member access
 
 equality =
