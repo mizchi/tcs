@@ -121,10 +121,10 @@ classDeclaration =
   "class" __ id:identifier
   typeParameters:(_ t:typeParameterDeclaration {t})?
   superClass:(
-    __ "extends" __ e:expr // _ parameters:typeParameterDeclaration?
+    __ "extends" __ e:memberExpr parameters:typeParameterDeclaration?
     {
       expr: e
-      # superTypeParameters: parameters
+      superTypeParameters: parameters
     }
   )?
   body:(_ EOL b:classBody {b})?
