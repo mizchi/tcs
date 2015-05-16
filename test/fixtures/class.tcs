@@ -1,20 +1,16 @@
-class A
-class B extends A<T>
 class X<A>
   n: number
-  a: A
-  constructor()
-    super()
-
-  static x()
-    a
+  x: A
+  get x() {@.a}
 
   foo<T>()
     a
-  get x()
-    x
-  set y(y:number)
-    y
 
-class Y extends X<T>
-class Y extends X
+  get prop() {this._x}
+
+  set prop(_x:number)
+    @._x = x
+
+class Y extends X<number>
+  constructor()
+    super()
