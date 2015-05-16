@@ -24,6 +24,29 @@ statement
   / break
   / throw
   / try
+  / switch
+
+switch =
+  "switch" __ expr:expr _
+  EOL INDENT
+  whens:(SAMEDENT w:_when {w})+
+  _else:(SAMEDENT e:_switchElse {e})?
+  DEDENT
+  {
+    type: "SwitchStatement"
+    discriminant: expr
+    cases: whens.concat([_else] ? [])
+  }
+  _when = "when" __ e:expr _ EOL body:block {
+    type: "SwitchCase"
+    test: e
+    consequent: body.concat([{type: "BreakStatement", label: null}])
+  }
+  _switchElse = "else" _ EOL body:block {
+    type: "SwitchCase"
+    test: null
+    consequent: body.concat([{type: "BreakStatement", label: null}])
+  }
 
 try =
   "try" _ EOL tryBody:block

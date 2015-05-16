@@ -2,7 +2,7 @@
 
 WIP: heavily under development
 
-coffeescript like language with typecheck. for es6 age.
+coffeescript like language with typecheck. script for es6 age.
 
 ## Features
 
@@ -26,18 +26,18 @@ coffeescript like language with typecheck. for es6 age.
 
 ### TODO
 
-Basic
+- regexp expression
+- member access after func call `foo().bar`
+- sourcemap
 
-- [ ] regexp expression
-- [ ] type expression
+and many corner bugs.
 
 Advanced
 
 - [ ] if expression
+- [ ] switch expression
 - [ ] class expression
 - [ ] JSX
-
-and million bugs.
 
 ## Example
 

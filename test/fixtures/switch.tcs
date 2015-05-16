@@ -1,0 +1,13 @@
+switch e
+  when 1
+    a
+  when 2
+    a
+  else
+    a
+
+switch e
+  when 1
+    a
+  when 2
+    a

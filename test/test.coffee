@@ -15,6 +15,7 @@ list = [
   'if'
   'interface'
   'module'
+  'statement'
 ]
 
 for i in list
