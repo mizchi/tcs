@@ -2,6 +2,8 @@
 
 Tiny and Typed CoffeeScript like language for ES2015 age.
 
+Successor of [mizchi/TypedCoffeeScript](https://github.com/mizchi/TypedCoffeeScript "mizchi/TypedCoffeeScript")
+
 WIP: heavily under development
 
 ## Features
