@@ -1,10 +1,8 @@
-class Entity
-  id: string
-  x: number
-  y: number
+import Entity from './entity'
 
 class Player extends Entity
   constructor()
     super()
+    console.log('player')
 
-var x = new Player()
+export default Player

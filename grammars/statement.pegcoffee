@@ -282,13 +282,19 @@ importDeclaration =
     isType: false
   }
 
-exportDeclaration =
-  "export" _default:(__ "default")? __ decl:declaration
-  {
-    type: "ExportDeclaration"
-    default: _default?
-    declaration: decl
-  }
+exportDeclaration
+  = "export" __ "default" __ decl:(declaration / expr)
+    {
+      type: "ExportDeclaration"
+      default: true
+      declaration: decl
+    }
+  / "export" _default:(__ "default")? __ decl:declaration
+    {
+      type: "ExportDeclaration"
+      default: _default?
+      declaration: decl
+    }
 
 typeDeclaration = symbol:symbol _ ':' _ expr:_propTypeExpr
   {__rp type: 'typeDeclaration', propertyName:symbol, typeExpr: expr}

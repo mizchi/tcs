@@ -1,0 +1,5 @@
+class Entity
+  id: string
+  x: number
+  y: number
+export default Entity

@@ -32,3 +32,5 @@ runtime.js
 parser.js
 grammar.pegcoffee
 scratch.coffee
+test/compiled
+test/flow

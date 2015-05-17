@@ -2,6 +2,8 @@ tcs = require('../lib/index')
 {inspect} = require('util')
 path = require('path')
 fs =require('fs')
+glob = require 'glob'
+mkdirp = require 'mkdirp'
 
 argv = require('minimist')(process.argv.slice(2))
 
@@ -15,17 +17,36 @@ printAst = (source, options = {}) ->
 [target] = argv._
 
 {execSync} = require 'child_process'
-run = (target, argv) ->
-  targetPath = path.join process.cwd(), target
-  source = fs.readFileSync(targetPath).toString()
-  code = tcs.compile source, argv
 
-  # TODO: auto generate filename by extname
-  if argv.out or argv.o
-    # console.log process.cwd(), argv.out ? argv.o
-    outputPath = path.join process.cwd(), (argv.out ? argv.o)
-    fs.writeFileSync(outputPath, code)
+run = (argv) ->
+  out = argv.outDir ? argv.o
+  src = argv.srcDir ? argv.s
+
+  if src and out
+    srcDir = path.join(process.cwd(), src)
+    outDir = path.join(process.cwd(), out)
+    targets = glob.sync srcDir + '/**/*.tcs'
+    for targetPath in targets when fs.statSync(targetPath).isFile()
+      # compile
+      source = fs.readFileSync(targetPath).toString()
+      code = tcs.compile source, argv
+
+      # output
+      outputPath = targetPath
+        .replace(srcDir, outDir)
+        .replace(/\.tcs?/, '.js')
+
+      # ensure dir
+      outDir = path.dirname outputPath
+      mkdirp.sync outDir
+
+      fs.writeFileSync(outputPath, code)
+      console.error targetPath, "->", outputPath
+    # TODO: auto generate filename by extname
   else
+    targetPath = path.join process.cwd(), argv._[0]
+    source = fs.readFileSync(targetPath).toString()
+    code = tcs.compile source, argv
     console.log code
 
-run(argv._[0], argv)
+run(argv)

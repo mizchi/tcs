@@ -15,8 +15,10 @@
   "dependencies": {
     "babel-core": "^5.4.3",
     "camelize": "^1.0.0",
+    "glob": "^5.0.6",
     "js-beautify": "^1.5.5",
     "minimist": "^1.1.1",
+    "mkdirp": "^0.5.1",
     "pegjs": "^0.8.0",
     "pegjs-coffee-plugin": "^0.2.2",
     "recast": "^0.10.12",
