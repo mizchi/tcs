@@ -1,13 +1,17 @@
 // literal ===================
 
-literal = boolean / number / string
-boolean = v:_boolean {__rp type: 'Literal', value: v is "true"}
-number = v:$(_number) {__rp type: 'Literal', value: parseInt(v, 10)}
+literal = boolean / number / string / null
+boolean = v:_boolean {type: 'Literal', value: v is "true"}
+number = v:$(_number) {type: 'Literal', value: parseInt(v, 10)}
 string = value:_string
   {
     v = value.replace(/'/g, '').replace(/"/g, '')
     __rp type: 'Literal', value: v
   }
+null = "null" {
+  type: "Literal"
+  value: null
+}
 
 // boolean
 _boolean = "true" / "false"

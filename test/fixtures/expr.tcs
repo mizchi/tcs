@@ -11,7 +11,7 @@ e.f(a, 1, 2)
   c: 1
   d: 2
 }
-[1, 2, kkkkkkkx]
+[1, 2, x]
 a = 1
 new X(1)
 ++1
@@ -26,3 +26,9 @@ new X(1)
 @.x
 
 a[b]
+
+if a then b else c
+if a then b else (if d then e else f)
+d = if a then b else c
+undefined
+null

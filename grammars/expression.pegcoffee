@@ -7,7 +7,7 @@
 expr = assignmentable
 assignable = memberExpr
 assignmentable
-  = _assignment / arrowFuncExpr / binaryExpr
+  = _assignment / arrowFuncExpr / conditional / binaryExpr
   _assignment = left:assignable _ op:_assignmentOp _ right:expr
   {
     type: 'AssignmentExpression'
@@ -16,6 +16,13 @@ assignmentable
     right: right
   }
   _assignmentOp = $("=" !">"/ "+=" !">"/ "-=")
+
+conditional = "if" __ test:expr __ "then" __ left:expr __ "else" __ right:expr {
+  type: "ConditionalExpression"
+  test: test
+  consequent: left
+  alternate: right
+}
 
 binaryExpr = equality
 

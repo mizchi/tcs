@@ -206,7 +206,7 @@ returnStatement = 'return' expr:(__ e:expr {e})? {
   argument: expr
 }
 
-ifStatement = 'if' __ test:expr _ EOL body:block elseIfs:_elseIf* _else:_else?
+ifStatement = 'if' __ test:expr _ !"then" _ EOL body:block elseIfs:_elseIf* _else:_else?
   {
     alternate =
       elseIfs.reverse().reduce (prev, next) ->
