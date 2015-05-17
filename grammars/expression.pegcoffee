@@ -74,7 +74,7 @@ memberExpr
   // dynamic member access
 
 equality =
-  left:logically _ op:_equalityOperator _ right:equality {
+  left:comparative _ op:_equalityOperator _ right:equality {
     type: 'BinaryExpression'
     left: left
     operator: op
@@ -84,14 +84,24 @@ equality =
   _equalityOperator = $("===" / "==" / "!==" / "!=")
 
 logically =
-  left:additive _ op:_logicallyOperator _ right:logically {
+  left:comparative _ op:_logicallyOperator _ right:logically {
+    type: 'BinaryExpression'
+    left: left
+    operator: op
+    right: right
+  }
+  / comparative
+  _logicallyOperator = $("&&" / "||")
+
+comparative =
+  left:additive _ op:_comparativeOperator _ right:comparative {
     type: 'BinaryExpression'
     left: left
     operator: op
     right: right
   }
   / additive
-  _logicallyOperator = $(">" / ">="/ "<" / "<=")
+  _comparativeOperator = $(">" / ">="/ "<" / "<=")
 
 additive =
   left:multiplicative _ op:_additiveOperator _ right:additive {

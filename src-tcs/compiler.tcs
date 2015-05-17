@@ -1,0 +1,16 @@
+let recast = require('recast')
+let babel = require('babel-core')
+
+compileToFlow(node, options)
+  "/* @flow */\n" + (recast.print(node)).code
+
+compileToES5(node, options)
+  var printed = recast.print(node)
+  var compiled = babel.transform(printed.code)
+  compiled.code
+
+module.exports = (node, opts) =>
+  if opts == null
+    otpts = {}
+  var target = if opts.t then opts.t else opts.target
+  if target === 'flow' then compileToFlow(node, opts) else compileToES5(node, opts)
