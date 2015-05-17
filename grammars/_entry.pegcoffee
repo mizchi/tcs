@@ -63,8 +63,12 @@ comment = '#' value:toTheEndOfLine EOL?
 toTheEndOfLine = !comment text:$((!EOL .)+) {text}
 
 SAMEDENT
-  = i:[ \t]* &{
-    i.join('') is ctx.indent
+  = i:$([ \t]*) &{
+    i is ctx.indent
+  }
+MORE_THAN_SAMEDENT
+  = i:$([ \t]*) &{
+    i.indexOf(ctx.indent) > -1
   }
 
 INDENT

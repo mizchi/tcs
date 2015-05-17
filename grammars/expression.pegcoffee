@@ -61,7 +61,7 @@ memberExpr
         expr: expr
         computed: true
       }
-    / _ EOL SAMEDENT _ "." id:identifier
+    / _ EOL MORE_THAN_SAMEDENT "." id:identifier
       {
         expr: id
         computed: false
