@@ -3,6 +3,9 @@
 false
 id
 a.b
+a
+.b
+
 c.d()
 e.f(a, 1, 2)
 {}
@@ -29,6 +32,7 @@ a[b]
 
 if a then b else c
 if a then b else (if d then e else f)
+if a then b else if d then e else f
 d = if a then b else c
 undefined
 null

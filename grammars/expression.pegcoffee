@@ -61,6 +61,11 @@ memberExpr
         expr: expr
         computed: true
       }
+    / _ EOL SAMEDENT _ "." id:identifier
+      {
+        expr: id
+        computed: false
+      }
     / '.' id:identifier
       {
         expr: id

@@ -42,7 +42,6 @@ and many corner bugs of parser.
 
 Advanced tasks
 
-- if expression
 - switch expression
 - class expression
 - JSX
@@ -65,6 +64,8 @@ a.b
   c: 1
   d: 2
 }
+var v1 = if a then b else c
+var v2 = if a then b else if d then e else f
 
 # assignment with type annotation
 var x1 = 3
