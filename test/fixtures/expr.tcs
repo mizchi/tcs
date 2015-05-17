@@ -27,6 +27,8 @@ new X(1)
 # a[1]
 # /?eregexp/
 @.x
+@x
+@x.y
 
 a[b]
 

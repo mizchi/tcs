@@ -124,7 +124,8 @@ postfixable = e:leftHandSideExpr ops:_postfixOp* {e}
   _postfixOp = "++" / "--"
 
 primary
-  = thisExpr
+  = thisWithAccess
+  / thisExpr
   / identifier
   / literal
   / arrayExpr
@@ -132,6 +133,14 @@ primary
   / "(" _ e:expr _ ")" {e}
 
 // atoms
+
+thisWithAccess = '@' id:identifier {
+  type: 'MemberExpression'
+  computed: false
+  object:
+    type: "ThisExpression"
+  property: id
+}
 
 thisExpr = '@' {type: 'ThisExpression'}
 
