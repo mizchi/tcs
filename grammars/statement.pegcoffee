@@ -23,6 +23,7 @@ statement
   / continue
   / break
   / throw
+  / while
   / try
   / switch
 
@@ -47,6 +48,14 @@ switch =
     test: null
     consequent: body.concat([{type: "BreakStatement", label: null}])
   }
+
+while = "while" __ expr:expr _ EOL body:block {
+  type: "WhileStatement"
+  test: expr
+  body:
+    type: "BlockStatement"
+    body: body
+}
 
 try =
   "try" _ EOL tryBody:block
