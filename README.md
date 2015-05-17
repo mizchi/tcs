@@ -141,11 +141,12 @@ import x from './x'
 export default {}
 ```
 
-## CLI(wip)
+## CLI
 
 ```
-tcs foo.tsc -o foo.js --target flow
-tcs foo.tsc -o foo.js --target es5
+tcs foo.tcs -t flow
+tcs foo.tcs -t es5
+tcs --srcDir src --outDir lib -t es5
 ```
 
 ## LICENSE

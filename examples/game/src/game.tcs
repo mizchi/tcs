@@ -1,8 +1,0 @@
-import Entity from './entity'
-
-class Player extends Entity
-  constructor()
-    super()
-    console.log('player')
-
-export default Player
